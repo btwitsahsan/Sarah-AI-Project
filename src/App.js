@@ -5,7 +5,7 @@ import { MenuIcon, PlusIcon } from "./constants";
 export default function App() {
   // Toggle
   const [show, setShow] = useState(false);
-  const [lightMode, setLightMode] = useState(true);
+  const [lightMode, setLightMode] = useState(false);
   const [message, setMessage] = useState(""); // State to store the input text
   const [actualMessage, setActualMessage] = useState([]);
   const handleMessageSend = (e) => {

@@ -3,25 +3,29 @@ import { LogOutIcon, SunIcon, DeleteIcon, MoonIcon } from "../../constants";
 import NewChat from "../NewChat";
 
 const LeftSection = ({ show = false, lightMode, toggleMode }) => {
-  const [countNewTab, setCountNewTab] = useState(0);
+  const [countNewTab, setCountNewTab] = useState([]);
 
   const handleAddTab = () => {
-    setCountNewTab(countNewTab + 1);
+    const newItem = { id: Date.now() };
+    setCountNewTab((prevItems) => [...prevItems, newItem]);
   };
 
-  const handleDelete = () => {
-    setCountNewTab(0);
+  const handleSingleDelete = (idToDelete) => {
+    setCountNewTab((prevItems) =>
+      prevItems.filter((item) => item.id !== idToDelete)
+    );
   };
 
-  // Function to render multiple "New chat" buttons based on countNewTab
   const renderNewChatButtons = () => {
-    const buttons = [];
-    for (let i = 0; i < countNewTab; i++) {
-      buttons.push(
-        <NewChat newchat={true} key={i} countNewTab={countNewTab} />
-      );
-    }
-    return buttons;
+    return countNewTab.map((item) => (
+      <NewChat
+        key={item.id}
+        id={item.id}
+        // Directly pass the handleSingleDelete function with the specific item's id
+        onDelete={() => handleSingleDelete(item.id)} // This is the key change
+        newchat={true}
+      />
+    ));
   };
 
   return (
@@ -45,7 +49,9 @@ const LeftSection = ({ show = false, lightMode, toggleMode }) => {
               </div>
             </div>
             <div
-              onClick={handleDelete}
+              onClick={() => {
+                setCountNewTab([]);
+              }}
               className="flex py-3 px-3 items-center gap-3 rounded-md hover:bg-gray-500/10 transition-colors duration-200 text-white cursor-pointer text-sm"
             >
               <DeleteIcon
@@ -59,17 +65,17 @@ const LeftSection = ({ show = false, lightMode, toggleMode }) => {
               onClick={toggleMode}
             >
               {lightMode ? (
-                <SunIcon
-                  className="h-4 w-4 text-white font-bold cursor-pointer"
-                  strokeWidth="2"
-                />
-              ) : (
                 <MoonIcon
                   className="h-4 w-4 text-white font-bold cursor-pointer"
                   strokeWidth="2"
                 />
+              ) : (
+                <SunIcon
+                  className="h-4 w-4 text-white font-bold cursor-pointer"
+                  strokeWidth="2"
+                />
               )}
-              {lightMode ? "Light mode" : "Dark mode"}
+              {lightMode ? "Dark mode" : "Light mode"}
             </a>
 
             <a className="flex py-3 px-3 items-center gap-3 rounded-md hover:bg-gray-500/10 transition-colors duration-200 text-white cursor-pointer text-sm">

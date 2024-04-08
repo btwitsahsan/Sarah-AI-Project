@@ -99,8 +99,17 @@ const RightSection = ({
                 <div className="message-container overflow-y-auto max-h-80">
                   <ul className="text-left">
                     {actualMessage.map((msg, index) => (
-                      <li key={index} className="mb-3">
-                        {msg}
+                      <li key={index} className="mb-10 text-xl">
+                        <div>
+                          <img
+                            className="inline-block "
+                            src="https://6603e9727d102e8360a41180--zippy-madeleine-28524d.netlify.app/assets/user-81892afe.png"
+                            alt="person"
+                            width={50}
+                            height={50}
+                          />
+                          <div className="inline-block  pl-4">{msg}</div>
+                        </div>
                       </li>
                     ))}
                   </ul>
