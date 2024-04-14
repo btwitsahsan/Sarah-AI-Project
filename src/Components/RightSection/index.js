@@ -1,6 +1,7 @@
 import React from "react";
 import { CautionIcon, LightningChargeIcon, SunIcon } from "../../constants";
 import Footer from "../Footer";
+import { First } from "../Wel";
 
 const RightSection = ({
   lightMode,
@@ -10,22 +11,28 @@ const RightSection = ({
   actualMessage,
 }) => {
   return (
-    <div className="flex h-full flex-1 flex-col md:pl-[260px]">
+   
+    <div className="flex h-full flex-1 flex-col md:pl-[260px] font-semibold">
+     
       <main className="relative h-full w-full transition-width flex flex-col overflow-hidden items-stretch flex-1">
         <div className="flex-1 overflow-hidden">
+        
           <div
-            className={`flex flex-col items-center text-sm h-full md:h-screen ${
-              lightMode ? "bg-white text-black" : "bg-[#1A202C] text-white"
-            }`}
+            className={`flex flex-col items-center text-sm h-full md:h-screen ${lightMode ? "bg-white text-black" : "bg-[#1A202C] text-white"
+              }`}
           >
-            <div className="w-full md:max-w-2xl lg:max-w-3xl md:h-full md:flex md:flex-col px-6 ">
+            
+            <div className="w-full md:max-w-2xl lg:max-w-3xl md:h-full md:flex md:flex-col px-6  ">
+            
+            <div><First/> </div>
               <h1
-                className={`text-4xl font-semibold text-center mt-2 sm:mt-[10vh] ml-auto mr-auto mb-10 sm:mb-16`}
+                className={`text-3xl font-bold text-center mt-4 sm:mt-[10vh] ml-auto mr-auto mb-10 sm:mb-16`}
               >
+                
                 SarahAI
               </h1>
               {actualMessage.length === 0 ? (
-                <div className="md:flex  items-start text-center gap-3.5">
+                <div className="md:flex  items-start text-center gap-2 text-[15px] flex-wrap">
                   {[
                     {
                       icon: <SunIcon />,
@@ -63,9 +70,8 @@ const RightSection = ({
                       key={index}
                     >
                       <h2
-                        className={`flex gap-3 items-center m-auto text-lg font-normal md:flex-col md:gap-2 ${
-                          lightMode ? "text-black" : "text-white"
-                        }`}
+                        className={`flex gap-3 items-center m-auto text-lg font-normal md:flex-col md:gap-2 ${lightMode ? "text-black" : "text-white"
+                          }`}
                       >
                         {item.icon}
                         {item.title}
@@ -73,19 +79,16 @@ const RightSection = ({
                       <ul className="flex flex-col gap-3.5 w-full sm:max-w-md m-auto">
                         {item.subTitle.map((subTitle, subTitleIndex) => (
                           <button
-                            className={`w-full  bg-gray-50 text-gray-100 bg-white/5 p-3 rounded-md ${
-                              item.hover
-                                ? ` ${
-                                    !lightMode
-                                      ? "hover:bg-white/10"
-                                      : "hover:bg-gray-200"
-                                  }   cursor-pointer `
+                            className={`w-full  bg-gray-50 text-gray-100 bg-white/5 p-3 rounded-md ${item.hover
+                                ? ` ${!lightMode
+                                  ? "hover:bg-white/10"
+                                  : "hover:bg-gray-200"
+                                }   cursor-pointer `
                                 : "cursor-text"
-                            } ${
-                              lightMode
+                              } ${lightMode
                                 ? "text-black bg-slate-100"
                                 : "text-white"
-                            }`}
+                              }`}
                             key={subTitleIndex}
                           >
                             {subTitle}
@@ -114,9 +117,11 @@ const RightSection = ({
                     ))}
                   </ul>
                 </div>
+                
               )}
             </div>
             <div className="w-full h-48 flex-shrink-0"></div>
+            
           </div>
         </div>
 

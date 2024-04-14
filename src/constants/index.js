@@ -11,6 +11,7 @@ import UserIcon from "./svg/userIcon";
 import DeleteIcon from "./svg/deleteIcon";
 import MoonIcon from "./svg/moonIcon";
 import MessageIcon from "./svg/MessageIcon";
+import { FiSend } from "react-icons/fi";
 
 export {
   SunIcon,
@@ -25,5 +26,6 @@ export {
   UserIcon,
   DeleteIcon,
   MoonIcon,
-  MessageIcon
+  MessageIcon,
+  FiSend
 };

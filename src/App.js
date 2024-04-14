@@ -4,6 +4,7 @@ import { MenuIcon, PlusIcon } from "./constants";
 
 export default function App() {
   // Toggle
+  const [isTextareaFocused, setIsTextareaFocused] = useState(false);
   const [show, setShow] = useState(false);
   const [lightMode, setLightMode] = useState(false);
   const [message, setMessage] = useState(""); // State to store the input text

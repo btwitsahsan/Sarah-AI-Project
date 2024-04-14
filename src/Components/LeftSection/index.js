@@ -30,14 +30,13 @@ const LeftSection = ({ show = false, lightMode, toggleMode }) => {
 
   return (
     <div
-      className={`${
-        show ? "flex flex-col" : "hidden"
-      } bg-[#171923] md:fixed md:inset-y-0 md:flex md:w-[260px] md:flex-col`}
+      className={`${show ? "flex flex-col" : "hidden"
+        } bg-[#171923] md:fixed md:inset-y-0 md:flex md:w-[260px] md:flex-col`}
     >
       <div className="flex h-full min-h-0 flex-col ">
         <div className="scrollbar-trigger flex h-full w-full flex-1 items-start border-white/20">
           <nav className="flex h-full overflow-y-auto flex-1 flex-col space-y-1 p-2">
-            <div onClick={handleAddTab} className="mb-6">
+            <div onClick={handleAddTab} className="">
               <NewChat />
             </div>
             <div className="flex h-full overflow-y-auto  flex-col space-y-1 p-2">
@@ -52,16 +51,16 @@ const LeftSection = ({ show = false, lightMode, toggleMode }) => {
               onClick={() => {
                 setCountNewTab([]);
               }}
-              className="flex py-3 px-3 items-center gap-3 rounded-md hover:bg-gray-500/10 transition-colors duration-200 text-white cursor-pointer text-sm"
+              className="flex py-3 px-3 items-center gap-3 rounded-md hover:bg-gray-500/10 transition-colors duration-200 text-white cursor-pointer text-[10] font-semibold"
             >
               <DeleteIcon
                 className="h-4 w-4 text-white font-bold cursor-pointer"
                 strokeWidth="2"
               />
-              Delete Conversations
+              Clear Conversations
             </div>
             <a
-              className="flex py-3 px-3 items-center gap-3 rounded-md hover:bg-gray-500/10 transition-colors duration-200 text-white cursor-pointer text-sm"
+              className="flex py-3 px-3 items-center gap-3 rounded-md hover:bg-gray-500/10 transition-colors duration-200 text-white cursor-pointer text-[10] font-semibold"
               onClick={toggleMode}
             >
               {lightMode ? (
@@ -78,7 +77,7 @@ const LeftSection = ({ show = false, lightMode, toggleMode }) => {
               {lightMode ? "Dark mode" : "Light mode"}
             </a>
 
-            <a className="flex py-3 px-3 items-center gap-3 rounded-md hover:bg-gray-500/10 transition-colors duration-200 text-white cursor-pointer text-sm">
+            <a className="flex py-3 px-3 items-center gap-3 rounded-md hover:bg-gray-500/10 transition-colors duration-200 text-white cursor-pointer text-[10] font-semibold">
               <LogOutIcon
                 className="h-4 w-4 text-white font-bold cursor-pointer"
                 strokeWidth="2"
