@@ -1,9 +1,10 @@
 import React from "react";
 // import { DeleteIcon } from "..";
 
-const DeleteIcon = ({ className = "h-6 w-6", strokeWidth = "2" }) => {
+const DeleteIcon = ({ className = "h-4 w-4", strokeWidth = "2", onClick }) => {
   return (
     <svg
+      onClick={onClick}
       stroke="currentColor"
       fill="none"
       strokeWidth={strokeWidth}

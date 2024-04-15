@@ -1,25 +1,40 @@
-import React, { useState } from "react";
-import { Footer, LeftSection, RightSection } from "./Components";
-import { MenuIcon, PlusIcon } from "./constants";
+import React, { useState, useEffect } from "react";
+
+import Cookies from "js-cookie";
+import { MenuIcon, PlusIcon } from "./constants/CONSTANTS";
+import LeftSection from "./Components/LeftSection";
+import RightSection from "./Components/RightSection";
+import LandingPage from "./pages/LandingPage";
 
 export default function App() {
-  // Toggle
-  const [isTextareaFocused, setIsTextareaFocused] = useState(false);
   const [show, setShow] = useState(false);
   const [lightMode, setLightMode] = useState(false);
-  const [message, setMessage] = useState(""); // State to store the input text
+  const [message, setMessage] = useState("");
   const [actualMessage, setActualMessage] = useState([]);
   const handleMessageSend = (e) => {
-    e.preventDefault(); // Prevent form submission
-    setActualMessage([...actualMessage, message]); // Update actualMessage state with the new message
-    setMessage(""); // Clear the message input field
+    e.preventDefault();
+    setActualMessage([...actualMessage, message]);
+    setMessage("");
   };
+
+  const token = Cookies.get("token");
+
+  useEffect(() => {
+    const savedMode = Cookies.get("lightMode");
+    if (savedMode !== undefined) {
+      setLightMode(savedMode === "true");
+    }
+  }, []);
 
   const toggleMode = () => {
-    setLightMode(!lightMode);
+    setLightMode((prevMode) => {
+      const newMode = !prevMode;
+      Cookies.set("lightMode", newMode.toString());
+      return newMode;
+    });
   };
 
-  return (
+  return token ? (
     <div>
       <div className="sticky top-0 z-10 flex items-center border-b border-white/20 bg-gray-800 pl-1 pt-1 text-gray-200 sm:pl-3 md:hidden">
         <button
@@ -38,14 +53,11 @@ export default function App() {
         </button>
       </div>
 
-      {/* Left Section */}
       <LeftSection
         {...{ show }}
         lightMode={lightMode}
         toggleMode={toggleMode}
       />
-
-      {/* Right Section */}
 
       <RightSection
         lightMode={lightMode}
@@ -55,5 +67,7 @@ export default function App() {
         actualMessage={actualMessage}
       />
     </div>
+  ) : (
+    <LandingPage />
   );
 }

@@ -11,7 +11,8 @@ import UserIcon from "./svg/userIcon";
 import DeleteIcon from "./svg/deleteIcon";
 import MoonIcon from "./svg/moonIcon";
 import MessageIcon from "./svg/MessageIcon";
-import { FiSend } from "react-icons/fi";
+
+const DOMAIN = "http://localhost:4000/api";
 
 export {
   SunIcon,
@@ -27,5 +28,5 @@ export {
   DeleteIcon,
   MoonIcon,
   MessageIcon,
-  FiSend
+  DOMAIN,
 };
