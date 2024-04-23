@@ -1,24 +1,23 @@
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import Cookies from "js-cookie";
-import { MenuIcon, PlusIcon } from "../constants/CONSTANTS";
+import { DOMAIN, MenuIcon, PlusIcon } from "../constants/CONSTANTS";
 import LeftSection from "../Components/LeftSection";
 import RightSection from "../Components/RightSection";
 
 export default function ChatPage() {
-  const { chatId } = useParams(); // Retrieve chatId from URL
+  const { chatId } = useParams();
   const [show, setShow] = useState(false);
   const [lightMode, setLightMode] = useState(false);
   const [message, setMessage] = useState("");
   const [actualMessage, setActualMessage] = useState([]);
 
-  // Fetch chat data based on chatId
   useEffect(() => {
     const fetchChatData = async () => {
       try {
-        const response = await fetch(`YOUR_API_ENDPOINT/${chatId}`);
+        const response = await fetch(`${DOMAIN}${chatId}`);
         const data = await response.json();
-        setActualMessage(data.messages); // Assuming the API returns an object with messages
+        setActualMessage(data.messages);
       } catch (error) {
         console.error("Failed to fetch chat data:", error);
       }

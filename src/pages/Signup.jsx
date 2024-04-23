@@ -4,6 +4,7 @@ import * as Yup from "yup";
 import { motion } from "framer-motion";
 import { useNavigate } from "react-router-dom";
 import axios from "axios"; // Import Axios for making HTTP requests
+import { DOMAIN } from "../constants/CONSTANTS";
 
 const SignUp = () => {
   const navigate = useNavigate();
@@ -41,10 +42,10 @@ const SignUp = () => {
           onSubmit={async (values, { setSubmitting, setFieldError }) => {
             try {
               const response = await axios.post(
-                "http://localhost:5000/api/registeruser",
+                `${DOMAIN}/register`,
                 values
-              ); // Assuming your backend endpoint is /api/register
-              console.log(response.data); // Log the response from the server
+              );
+              console.log(response.data);
               navigate("/signin");
             } catch (error) {
               console.error("Registration Error:", error);
@@ -53,7 +54,7 @@ const SignUp = () => {
                 error.response.data &&
                 error.response.data.error
               ) {
-                setFieldError("email", error.response.data.error); // Display backend validation errors
+                setFieldError("email", error.response.data.error);
               }
             } finally {
               setSubmitting(false);
