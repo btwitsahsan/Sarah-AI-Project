@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { PlusIcon, MessageIcon, DeleteIcon } from "../constants/CONSTANTS";
 
-const NewChat = ({ id, text, NewChat, onDelete, onUpdate, onClick }) => {
+const NewChat = ({ id, text, chatID, NewChat, onDelete, onUpdate, onClick }) => {
   const [isEditing, setIsEditing] = useState(false);
   const [editText, setEditText] = useState(text);
 
@@ -15,7 +15,7 @@ const NewChat = ({ id, text, NewChat, onDelete, onUpdate, onClick }) => {
 
   const handleBlur = () => {
     if (editText !== text) {
-      onUpdate(id, editText);
+      onUpdate(chatID, editText);
     }
     setIsEditing(false);
   };
@@ -27,7 +27,7 @@ const NewChat = ({ id, text, NewChat, onDelete, onUpdate, onClick }) => {
   };
 
   return (
-    <a
+    <a href
       onClick={onClick}
       className="flex py-3 px-3 items-center gap-3 rounded-md hover:bg-gray-500/10 transition-colors duration-200 text-white cursor-pointer text-sm mb-2 flex-shrink-0 border border-white/20"
     >

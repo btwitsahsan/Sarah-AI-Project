@@ -18,22 +18,24 @@ const RightSection = ({
     <div className="flex h-full flex-1 flex-col md:pl-[260px] font-semibold">
       <main className="relative h-full w-full transition-width flex flex-col overflow-hidden items-stretch flex-1">
         <div className="flex-1 overflow-hidden">
-          {id ? (
-            <div>{id}</div>
-          ) : (
+        
+          
             <div
               className={`flex flex-col items-center text-sm h-full md:h-screen ${
                 lightMode ? "bg-white text-black" : "bg-[#1A202C] text-white"
               }`}
-            >
+              >
+              <div>{id}</div>
+
               <div className="w-full md:max-w-2xl lg:max-w-3xl md:h-full md:flex md:flex-col px-6  ">
                 <div></div>
-                <h1
+               {actualMessage.length === 0 && <h1
                   className={`text-3xl font-bold text-center mt-4 sm:mt-[10vh] ml-auto mr-auto mb-10 sm:mb-16`}
                 >
                   SarahAI
                 </h1>
-                {actualMessage.length === 0 ? (
+}
+                {actualMessage.length === 0 && !id ?  (
                   <div className="md:flex  items-start text-center gap-2 text-[15px] flex-wrap">
                     {[
                       {
@@ -127,7 +129,7 @@ const RightSection = ({
               </div>
               <div className="w-full h-48 flex-shrink-0"></div>
             </div>
-          )}
+          
         </div>
 
         <Footer

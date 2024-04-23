@@ -1,64 +1,113 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import axios from "axios";
 import {
   LogOutIcon,
   SunIcon,
   DeleteIcon,
   MoonIcon,
+  DOMAIN,
 } from "../constants/CONSTANTS";
 import NewChat from "./NewChat";
 import { useNavigate } from "react-router-dom";
+import Cookies from "js-cookie";
 
 const LeftSection = ({ show = false, lightMode, toggleMode }) => {
-  const [ChatList, setChatList] = useState([
-    { id: "bba129c3-7736-4b49-8561-732b5175b698", text: "maths" },
-    { id: "458b15f5-81c3-4d1f-8750-d81b4e570cd6", text: "equations" },
-    { id: "68eedd0a-6e51-449b-bb17-88d6ba733a98", text: "linear graph" },
-    { id: "bba129c3-7736-4b49-8561-732b5175b698", text: "maths" },
-    { id: "458b15f5-81c3-4d1f-8750-d81b4e570cd6", text: "equations" },
-    { id: "68eedd0a-6e51-449b-bb17-88d6ba733a98", text: "linear graph" },
-  ]);
-
+  const [chatList, setChatList] = useState([]);
   const navigate = useNavigate();
-  const handleAddTab = () => {
-    const newItem = { id: Date.now(), text: "New chat" };
-    setChatList((prevItems) => [...prevItems, newItem]);
+
+  const getAuthHeaders = () => {
+    const token = Cookies.get("token");
+    const headers = {
+      Authorization: `${token}`,
+    };
+    return headers;
   };
 
-  const handleSingleDelete = (idToDelete) => {
-    setChatList((prevItems) =>
-      prevItems.filter((item) => item.id !== idToDelete)
-    );
+  const fetchData = async () => {
+    try {
+      const headers =  getAuthHeaders();
+      const response = await axios.post(`${DOMAIN}/get_chatlist`, null, { headers });
+      setChatList(response.data.chats); // Assuming API response is an array of chat objects
+    } catch (error) {
+      console.error("Failed to fetch data:", error);
+    }
   };
 
-  const handleUpdateChat = (id, newText) => {
-    setChatList((prevItems) =>
-      prevItems.map((item) =>
-        item.id === id ? { ...item, text: newText } : item
-      )
-    );
+  useEffect(() => {
+    fetchData(); // Fetch data when component mounts
+    // eslint-disable-next-line
+  }, [chatList]);
+
+  const handleSingleDelete = async (idToDelete) => {
+    try {
+      const headers =  getAuthHeaders();
+      await axios.post(`${DOMAIN}/delete_chat`,{ chatID: idToDelete }, { headers });
+      setChatList((prevItems) =>
+        prevItems.filter((item) => item.chatID !== idToDelete)
+      );
+    } catch (error) {
+      console.error("Failed to delete item:", error);
+    }
+  };
+
+  const handleUpdateChat = async (id, newText) => {
+
+    console.log(id)
+    try {
+      const headers =  getAuthHeaders();
+      await axios.post(`${DOMAIN}/edit_chat_text`, {chatID: id, newText: newText }, { headers });
+      setChatList((prevItems) =>
+        prevItems.map((item) =>
+          item.chatID === id ? { ...item, text: newText } : item
+        )
+      );
+    } catch (error) {
+      console.error("Failed to update item:", error);
+    }
   };
 
   const clearConversations = async () => {
     try {
-      // API call if needed here
+      const headers =  getAuthHeaders();
+      await axios.post(`${DOMAIN}/delete_All_chat`, null, { headers });
       setChatList([]);
     } catch (error) {
       console.error("Failed to clear conversations:", error);
     }
   };
+
+  const handleAddTab = async () => {
+    try {
+      const headers =  getAuthHeaders();
+      const response = await axios.post(`${DOMAIN}/new_chat_on_list`, null, { headers });
+      const newItem = response.data; 
+      setChatList((prevItems) => [...prevItems, newItem]);
+    } catch (error) {
+      console.error("Failed to add new chat:", error);
+    }
+  };
+
+  const handleLogout = () => {
+    Cookies.remove("token");
+    navigate("/");
+    window.location.reload();
+  };
+
   const onChatClick = (id) => {
     navigate(`/chat/${id}`);
   };
 
   const renderNewChatButtons = () => {
-    return ChatList.map((item, index) => (
+    
+    return chatList.map((item) => (
       <NewChat
-        key={index}
+        key={item.id}
         id={item.id}
+        chatID={item.chatID}
         text={item.text}
         NewChat={false}
-        onClick={() => onChatClick(item.id)}
-        onDelete={() => handleSingleDelete(item.id)}
+        onClick={() => onChatClick(item.chatID)}
+        onDelete={() => handleSingleDelete(item.chatID)}
         onUpdate={handleUpdateChat}
       />
     ));
@@ -105,7 +154,7 @@ const LeftSection = ({ show = false, lightMode, toggleMode }) => {
             )}
             {lightMode ? "Dark mode" : "Light mode"}
           </div>
-          <a className="flex py-3 px-3 items-center gap-3 rounded-md hover:bg-gray-500/10 transition-colors duration-200 text-white cursor-pointer text-sm">
+          <a href className="flex py-3 px-3 items-center gap-3 rounded-md hover:bg-gray-500/10 transition-colors duration-200 text-white cursor-pointer text-sm" onClick={handleLogout}>
             <LogOutIcon
               className="h-4 w-4 text-white font-bold cursor-pointer"
               strokeWidth="2"
