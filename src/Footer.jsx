@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { PlaneIcon, UserIcon } from "./constants/CONSTANTS";
 
-const Footer = ({ lightMode, message, handleMessageSend, setMessage }) => {
+const Footer = ({ lightMode, message, handleChatMessageSend, setMessage }) => {
   return (
     <div
       className={`absolute bottom-0 left-0 w-full ${
@@ -10,7 +10,7 @@ const Footer = ({ lightMode, message, handleMessageSend, setMessage }) => {
           : "border-transparent bg-[rgba(0, 0, 0, 0.24)]"
       }`}
     >
-      <form className="mx-2 flex flex-row gap-3 pt-2 last:mb-2 md:last:mb-6 lg:mx-auto lg:max-w-3xl lg:pt-6">
+      <form className="mx-2 flex flex-row gap-3 pt-2 last:mb-2 md:last:mb-6 lg:mx-auto lg:max-w-5xl lg:pt-6">
         <div className="relative flex h-full flex-1 md:flex-col">
           <div className="ml-1 mt-1.5 md:w-full md:m-auto md:flex md:mb-2 gap-2 justify-center">
             <div className="text-gray-100 p-1 md:hidden">
@@ -31,13 +31,14 @@ const Footer = ({ lightMode, message, handleMessageSend, setMessage }) => {
               tabIndex="0"
               data-id="root"
               rows="1"
+              placeholder="Message SarahAI"
               className=" m-0 w-full resize-none border-0 bg-transparent p-0 pr-7 focus:ring-0 focus-visible:ring-0 dark:bg-transparent outline-none overflow-y-hidden h-[23px]"
             ></textarea>
             <button
               className={`absolute p-1 rounded-md text-gray-400 bottom-1.5 right-1 md:bottom-2.5 md:right-2 ${
                 lightMode ? "hover:bg-black" : "hover:bg-gray-700"
               }`}
-              onClick={handleMessageSend}
+              onClick={handleChatMessageSend}
             >
               <PlaneIcon />
             </button>

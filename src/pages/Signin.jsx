@@ -39,7 +39,7 @@ const SignIn = () => {
             } catch (error) {
               console.error("Login Error:", error);
               if (error.response && error.response.data) {
-                // General error message handling
+                
                 const message = error.response.data.message || "Unknown error";
                 setFieldError("email", message);
                 setFieldError("password", message);

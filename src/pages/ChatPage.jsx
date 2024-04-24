@@ -1,38 +1,71 @@
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import Cookies from "js-cookie";
-import { MenuIcon, PlusIcon } from "../constants/CONSTANTS";
+import { DOMAIN, MenuIcon, PlusIcon } from "../constants/CONSTANTS";
 import LeftSection from "../Components/LeftSection";
 import RightSection from "../Components/RightSection";
+import axios from "axios";
 
 export default function ChatPage() {
-  const { chatId } = useParams(); // Retrieve chatId from URL
+  const { chatId } = useParams();
   const [show, setShow] = useState(false);
   const [lightMode, setLightMode] = useState(false);
   const [message, setMessage] = useState("");
   const [actualMessage, setActualMessage] = useState([]);
 
-  // Fetch chat data based on chatId
-  useEffect(() => {
-    const fetchChatData = async () => {
-      try {
-        const response = await fetch(`YOUR_API_ENDPOINT/${chatId}`);
-        const data = await response.json();
-        setActualMessage(data.messages); // Assuming the API returns an object with messages
-      } catch (error) {
-        console.error("Failed to fetch chat data:", error);
-      }
-    };
+  // useEffect(() => {
+  //   const fetchChatData = async () => {
+  //     try {
+  //       const response = await axios.get(`${DOMAIN}${chatId}`);
+  //       const data = response.data; 
+  //       const updatedMessages = data.messages.map((msg) => ({ ...msg, type: 'user' }));
+        
+  //       // You can use updatedMessages for further processing or state updates
+  //       console.log(updatedMessages);
+    
+  //     } catch (error) {
+  //       console.error("Failed to fetch chat data:", error);
+  //     }
+  //   };
 
-    if (chatId) {
-      fetchChatData();
-    }
-  }, [chatId]);
+  //   if (chatId) {
+  //     fetchChatData();
+  //   }
+  // }, [chatId]);
 
-  const handleMessageSend = (e) => {
+  const handleChatMessageSend = async (e) => {
     e.preventDefault();
-    setActualMessage([...actualMessage, message]);
+    setActualMessage([...actualMessage, { text: message, type: 'user' }]);
     setMessage("");
+
+    if (message.trim() === "") return;
+
+    // setLoading(true);
+
+    try {
+      const aiResponse = await handleMessageSend(message);
+      setMessage(""); // Clear input field after sending message
+      // setLoading(false);
+
+      // Update actualMessage state to include user message and AI response
+      setActualMessage((prevMessages) => [...prevMessages, { text: aiResponse, type: 'ai' }]);
+    } catch (error) {
+      console.error("Error sending message:", error);
+      // setLoading(false);
+    }
+  };
+
+
+  // const [loading, setLoading] = useState(false);
+
+  const handleMessageSend = async (userMessage) => {
+    // Simulating AI response (replace with actual API call to AI service)
+    const aiResponse = `AI: Hi there! You said: "${userMessage}"`;
+
+    // Simulate asynchronous delay (remove in production)
+    await new Promise((resolve) => setTimeout(resolve, 1000));
+
+    return aiResponse;
   };
 
   useEffect(() => {
@@ -76,8 +109,9 @@ export default function ChatPage() {
         lightMode={lightMode}
         message={message}
         setMessage={setMessage}
-        handleMessageSend={handleMessageSend}
+        handleChatMessageSend={handleChatMessageSend}
         actualMessage={actualMessage}
+        setActualMessage={setActualMessage}
       />
     </div>
   );
