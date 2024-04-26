@@ -11,7 +11,7 @@ import NewChat from "./NewChat";
 import { useNavigate } from "react-router-dom";
 import Cookies from "js-cookie";
 
-const LeftSection = ({ show = false, lightMode, toggleMode }) => {
+const LeftSection = ({ show = false, lightMode, toggleMode ,setActualMessage }) => {
   const [chatList, setChatList] = useState([]);
   const navigate = useNavigate();
 
@@ -45,6 +45,8 @@ const LeftSection = ({ show = false, lightMode, toggleMode }) => {
       setChatList((prevItems) =>
         prevItems.filter((item) => item.chatID !== idToDelete)
       );
+      setActualMessage([]);
+      navigate("/");
     } catch (error) {
       console.error("Failed to delete item:", error);
     }
@@ -71,6 +73,7 @@ const LeftSection = ({ show = false, lightMode, toggleMode }) => {
       const headers =  getAuthHeaders();
       await axios.post(`${DOMAIN}/delete_All_chat`, null, { headers });
       setChatList([]);
+      navigate("/");
     } catch (error) {
       console.error("Failed to clear conversations:", error);
     }

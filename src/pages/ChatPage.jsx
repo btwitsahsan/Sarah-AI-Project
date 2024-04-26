@@ -127,7 +127,7 @@ try {
         </button>
       </div>
 
-      <LeftSection show={show} lightMode={lightMode} toggleMode={toggleMode} />
+      <LeftSection show={show} lightMode={lightMode} toggleMode={toggleMode} setActualMessage={setActualMessage}/>
 
       <RightSection
         chatId={chatId}
