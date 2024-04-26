@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { PlaneIcon, UserIcon } from "./constants/CONSTANTS";
 
 const Footer = ({ lightMode, message, handleChatMessageSend, setMessage }) => {

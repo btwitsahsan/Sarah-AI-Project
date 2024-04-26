@@ -36,7 +36,7 @@ const LeftSection = ({ show = false, lightMode, toggleMode }) => {
   useEffect(() => {
     fetchData(); // Fetch data when component mounts
     // eslint-disable-next-line
-  }, [chatList]);
+  }, []);
 
   const handleSingleDelete = async (idToDelete) => {
     try {

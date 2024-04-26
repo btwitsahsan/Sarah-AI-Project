@@ -13,7 +13,7 @@ const RightSection = ({
   handleChatMessageSend,
   setMessage,
   actualMessage,
-  id,
+  chatId,
 }) => {
   const messageContainerRef = useRef(null);
 
@@ -37,7 +37,7 @@ const RightSection = ({
               lightMode ? "bg-white text-black" : "bg-[#1A202C] text-white"
             }`}
           >
-            <div>{id}</div>
+            <div>{chatId}</div>
 
             <div className="w-full md:max-w-3xl lg:max-w-5xl md:h-full md:flex md:flex-col px-6  ">
               <div></div>
@@ -48,7 +48,7 @@ const RightSection = ({
                   SarahAI
                 </h1>
               )}
-              {actualMessage.length === 0 && !id ? (
+              {actualMessage.length === 0 && !chatId ? (
                 <div className="md:flex  items-start text-center gap-2 text-[15px] flex-wrap">
                   {[
                     {
@@ -177,6 +177,7 @@ const RightSection = ({
           message={message}
           handleChatMessageSend={handleChatMessageSend}
           setMessage={setMessage}
+          chatId={chatId}
         />
       </main>
     </div>

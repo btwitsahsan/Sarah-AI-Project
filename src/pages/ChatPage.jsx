@@ -13,42 +13,67 @@ export default function ChatPage() {
   const [message, setMessage] = useState("");
   const [actualMessage, setActualMessage] = useState([]);
 
-  // useEffect(() => {
-  //   const fetchChatData = async () => {
-  //     try {
-  //       const response = await axios.get(`${DOMAIN}${chatId}`);
-  //       const data = response.data; 
-  //       const updatedMessages = data.messages.map((msg) => ({ ...msg, type: 'user' }));
-        
-  //       // You can use updatedMessages for further processing or state updates
-  //       console.log(updatedMessages);
-    
-  //     } catch (error) {
-  //       console.error("Failed to fetch chat data:", error);
-  //     }
-  //   };
+  useEffect(() => {
+    const fetchChatData = async (chatID) => {
+      setActualMessage([])
+      try {
+        const headers = {
+          chat_id : chatId,
+        }
+        const response = await axios.post(`${DOMAIN}/get_message_by_chatID`, null , {headers});
 
-  //   if (chatId) {
-  //     fetchChatData();
-  //   }
-  // }, [chatId]);
+        // console.log(response.data)
+        const data = await response.data;
+        // const updatedMessages = data.map((msg) => ({ ...msg, type: 'user' }));
+        const updatedMessages = await data.map((msg) => ({ ...msg, }));
+
+        setActualMessage(updatedMessages);
+
+        // You can use updatedMessages for further processing or state updates
+        // console.log(updatedMessages);
+      } catch (error) {
+        console.error('Failed to fetch chat data:', error);
+      }
+    };
+
+    if (chatId) {
+      fetchChatData(chatId); // Pass chatId to fetchChatData function
+    }
+  }, [chatId]);
 
   const handleChatMessageSend = async (e) => {
     e.preventDefault();
+console.log(chatId);
     setActualMessage([...actualMessage, { text: message, type: 'user' }]);
-    setMessage("");
-
+    
     if (message.trim() === "") return;
-
     // setLoading(true);
+   
+      // Send the user message to the backend for storage
+      const response = await axios.post(`${DOMAIN}/save_chat_message`, {
+        chatID: chatId,
+        text: message,
+        type: 'user',
+      });
 
-    try {
+console.log(response.data)
+
+setMessage("");
+
+try {
       const aiResponse = await handleMessageSend(message);
       setMessage(""); // Clear input field after sending message
       // setLoading(false);
 
       // Update actualMessage state to include user message and AI response
       setActualMessage((prevMessages) => [...prevMessages, { text: aiResponse, type: 'ai' }]);
+
+        axios.post(`${DOMAIN}/save_chat_message`, {
+        chatID: chatId,
+        text: aiResponse,
+        type: 'ai',
+      });
+
     } catch (error) {
       console.error("Error sending message:", error);
       // setLoading(false);
@@ -105,7 +130,7 @@ export default function ChatPage() {
       <LeftSection show={show} lightMode={lightMode} toggleMode={toggleMode} />
 
       <RightSection
-        id={chatId}
+        chatId={chatId}
         lightMode={lightMode}
         message={message}
         setMessage={setMessage}
